@@ -1,7 +1,6 @@
 'use client';
 
 import { projectData } from '@/data/projects';
-import { useAppSelector } from '@/store/hooks';
 import ProjectNode from './ProjectNode';
 
 export default function ProjectNetwork() {

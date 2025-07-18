@@ -15,8 +15,8 @@ export default function Portfolio() {
   const dispatch = useAppDispatch();
 
   // Initialize ambient systems
-  const currentTime = useBackground();
-  const scratchControls = useScratch();
+  useBackground();
+  useScratch();
 
   useEffect(() => {
     // Initialize app state

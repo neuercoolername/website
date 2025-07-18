@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface ScratchPath {
   id: string;
   points: { x: number; y: number }[];
-  element: SVGPathElement;
 }
 
 interface ScratchState {
