@@ -3,19 +3,80 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
   --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --accent: #646cff;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: background 4s ease-in-out;
+}
+
+/* Ensure time-based backgrounds have priority */
+body.time-dawn,
+body.time-morning,
+body.time-midday,
+body.time-afternoon,
+body.time-evening,
+body.time-dusk,
+body.time-night,
+body.time-late-night {
+  background-attachment: fixed !important;
+}
+
+/* Breathing animation for backgrounds */
+@keyframes breathe {
+  0%, 100% { 
+    background-size: 100% 100%; 
+    filter: brightness(1);
+  }
+  50% { 
+    background-size: 110% 110%; 
+    filter: brightness(1.02);
+  }
+}
+
+/* Time-based atmospheric backgrounds */
+body.time-dawn {
+  background: linear-gradient(135deg, #fdf8f6 0%, #fcf4f1 25%, #fbf0ec 50%, #faf6f3 75%, #f9f7f5 100%);
+  animation: breathe 15s ease-in-out infinite;
+}
+
+body.time-morning {
+  background: linear-gradient(135deg, #fffef8 0%, #fefcf0 25%, #fdf9e8 50%, #fcf6e0 75%, #fbf3d8 100%);
+  animation: breathe 12s ease-in-out infinite;
+}
+
+body.time-midday {
+  background: linear-gradient(135deg, #fdfdfd 0%, #fafbfc 25%, #f6f8fa 50%, #f1f4f6 75%, #ecf0f2 100%);
+  animation: breathe 18s ease-in-out infinite;
+}
+
+body.time-afternoon {
+  background: linear-gradient(135deg, #fffef7 0%, #fefcf0 25%, #fdf9e8 50%, #fcf5df 75%, #fbf1d6 100%);
+  animation: breathe 14s ease-in-out infinite;
+}
+
+body.time-evening {
+  background: linear-gradient(135deg, #faf8f6 0%, #f6f3f0 25%, #f2eeea 50%, #eee9e4 75%, #eae4de 100%);
+  animation: breathe 16s ease-in-out infinite;
+}
+
+body.time-dusk {
+  background: linear-gradient(135deg, #f4f2f6 0%, #f0edf2 25%, #ece8ee 50%, #e8e3ea 75%, #e4dee6 100%);
+  animation: breathe 13s ease-in-out infinite;
+}
+
+body.time-night {
+  background: linear-gradient(135deg, #eeecf0 0%, #e6e3e9 25%, #dedae2 50%, #d6d1db 75%, #cec8d4 100%);
+  animation: breathe 20s ease-in-out infinite;
+}
+
+body.time-late-night {
+  background: linear-gradient(135deg, #e8e6ea 0%, #dfdce2 25%, #d6d2da 50%, #cdc8d2 75%, #c4beca 100%);
+  animation: breathe 22s ease-in-out infinite;
 }
