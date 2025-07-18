@@ -40,7 +40,7 @@ export default function DetailPanel() {
           {selectedProject.meta}
         </p>
         <div className="flex flex-wrap gap-2">
-          {selectedProject.tags.map((tag, index) => (
+          {selectedProject.tags.map((tag: string, index: number) => (
             <span
               key={index}
               className="px-2 py-1 text-xs bg-gray-100/80 text-gray-600 rounded"
@@ -66,7 +66,7 @@ export default function DetailPanel() {
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-3">Links</h3>
             <div className="space-y-2">
-              {selectedProject.links.map((link, index) => (
+              {selectedProject.links.map((link: string, index: number) => (
                 <button
                   key={index}
                   className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors"
@@ -81,7 +81,7 @@ export default function DetailPanel() {
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-3">Related Projects</h3>
             <div className="space-y-2">
-              {selectedProject.related.map((related, index) => (
+              {selectedProject.related.map((related: string, index: number) => (
                 <div
                   key={index}
                   className="px-3 py-2 text-sm text-gray-600 bg-gray-50/50 rounded"

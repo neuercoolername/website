@@ -1,6 +1,6 @@
 'use client';
 
-import { Project } from '@/data/projects';
+import { Project } from '@/lib/projects';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectProject, hoverProject } from '@/store/slices/portfolioSlice';
 import { addMessage } from '@/store/slices/consoleSlice';

@@ -3,6 +3,7 @@ import portfolioSlice from './slices/portfolioSlice';
 import consoleSlice from './slices/consoleSlice';
 import scratchSlice from './slices/scratchSlice';
 import appSlice from './slices/appSlice';
+import projectSlice from './slices/projectSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     console: consoleSlice,
     scratch: scratchSlice,
     app: appSlice,
+    projects: projectSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
