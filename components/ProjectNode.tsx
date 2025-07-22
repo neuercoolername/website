@@ -4,6 +4,7 @@ import { Project } from '@/lib/projects';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectProject, hoverProject } from '@/store/slices/portfolioSlice';
 import { addMessage } from '@/store/slices/consoleSlice';
+import { createInteractionDetails } from '@/utils/domUtils';
 
 interface ProjectNodeProps {
   project: Project;
@@ -13,14 +14,30 @@ export default function ProjectNode({ project }: ProjectNodeProps) {
   const dispatch = useAppDispatch();
   const { hoveredProject, selectedProject } = useAppSelector(state => state.portfolio);
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent) => {
     dispatch(selectProject({ 
       project, 
       connections: [] 
     }));
+    
+    // Capture React event info before it gets nullified
+    const reactCurrentTarget = event.currentTarget;
+    const nativeEvent = event.nativeEvent;
+    // Temporarily set currentTarget on native event
+    Object.defineProperty(nativeEvent, 'currentTarget', {
+      value: reactCurrentTarget,
+      configurable: true
+    });
+    
+    const details = createInteractionDetails(nativeEvent, 'click');
+    const target = details.domElement?.selector || 'unknown element';
+    const bubbleInfo = details.currentTarget && details.currentTarget.selector !== details.domElement?.selector
+      ? `, bubbled up to <span class="dom-selector">${details.currentTarget.selector}</span>` 
+      : '';
     dispatch(addMessage({
-      content: `Selected: ${project.title}`,
-      type: 'interaction'
+      content: `click event originated at <span class="dom-selector">${target}</span>${bubbleInfo}`,
+      type: 'interaction',
+      details
     }));
   };
 

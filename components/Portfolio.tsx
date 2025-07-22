@@ -6,16 +6,24 @@ import { setInitialized, setMobile, setTimeOfDay } from '@/store/slices/appSlice
 import { closeDetailPanel } from '@/store/slices/portfolioSlice';
 import { useBackground } from '@/hooks/useBackground';
 import { useScratch } from '@/hooks/useScratch';
+import { usePerformance } from '@/hooks/usePerformance';
 import ProjectNetwork from './ProjectNetwork';
 import Console from './Console';
 import DetailPanel from './DetailPanel';
 
 export default function Portfolio() {
   const dispatch = useAppDispatch();
+  const { logPaintTiming, logNavigationTiming } = usePerformance();
 
   // Initialize ambient systems
   useBackground();
   useScratch();
+
+  // Initialize performance monitoring
+  logPaintTiming();
+  logNavigationTiming();
+
+
 
   useEffect(() => {
     // Initialize app state

@@ -3,11 +3,14 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProjects } from '@/store/slices/projectSlice';
+import { useComponentPerformance } from '@/hooks/usePerformance';
 import ProjectNode from './ProjectNode';
 
 export default function ProjectNetwork() {
   const dispatch = useAppDispatch();
   const { projects, loading, error } = useAppSelector((state) => state.projects);
+  
+  useComponentPerformance('ProjectNetwork');
 
   useEffect(() => {
     if (projects.length === 0) {
@@ -46,12 +49,6 @@ export default function ProjectNetwork() {
         ))}
       </div>
 
-      {/* Header */}
-      <header className="absolute top-8 left-8 z-20">
-        <h1 className="text-2xl font-light text-gray-700">
-          David Amberg
-        </h1>
-      </header>
     </div>
   );
 }

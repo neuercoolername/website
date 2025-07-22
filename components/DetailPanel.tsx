@@ -3,27 +3,47 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { closeDetailPanel } from '@/store/slices/portfolioSlice';
 import { addMessage } from '@/store/slices/consoleSlice';
+import { createInteractionDetails } from '@/utils/domUtils';
 
 export default function DetailPanel() {
   const dispatch = useAppDispatch();
   const { selectedProject } = useAppSelector(state => state.portfolio);
 
-  const handleClose = () => {
+  const handleClose = (event: React.MouseEvent) => {
     dispatch(closeDetailPanel());
     dispatch(addMessage({
       content: 'Detail panel closed',
-      type: 'interaction'
+      type: 'interaction',
+      details: createInteractionDetails(event.nativeEvent, 'click')
     }));
   };
 
-  if (!selectedProject) return null;
+  if (!selectedProject) {
+    return (
+      <div className="w-full h-full flex flex-col">
+        {/* Title when no project selected */}
+        <div className="p-6 border-b border-white/40">
+          <h1 className="text-2xl font-light text-gray-700">
+            David Amberg
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`
       w-full h-full transition-all duration-300
       ${selectedProject ? 'block' : 'hidden'}
     `}>
-      {/* Header */}
+      {/* Site Title */}
+      <div className="p-6 border-b border-white/40">
+        <h1 className="text-2xl font-light text-gray-700 mb-4">
+          David Amberg
+        </h1>
+      </div>
+      
+      {/* Project Header */}
       <div className="p-6 border-b border-white/40">
         <div className="flex justify-between items-start mb-4">
           <h2 className="text-xl font-medium text-gray-800 leading-tight">
