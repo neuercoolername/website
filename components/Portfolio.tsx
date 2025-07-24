@@ -1,18 +1,20 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setInitialized, setMobile, setTimeOfDay } from '@/store/slices/appSlice';
-import { closeDetailPanel } from '@/store/slices/portfolioSlice';
+import { closeDetailPanel, closeGallery, nextImage, previousImage, setCurrentImage } from '@/store/slices/portfolioSlice';
 import { useBackground } from '@/hooks/useBackground';
 import { useScratch } from '@/hooks/useScratch';
 import { usePerformance } from '@/hooks/usePerformance';
 import ProjectNetwork from './ProjectNetwork';
 import Console from './Console';
 import DetailPanel from './DetailPanel';
+import ImageGalleryOverlay from './ImageGalleryOverlay';
 
 export default function Portfolio() {
   const dispatch = useAppDispatch();
+  const { gallery } = useAppSelector(state => state.portfolio);
   const { logPaintTiming, logNavigationTiming } = usePerformance();
 
   // Initialize ambient systems
@@ -64,6 +66,18 @@ export default function Portfolio() {
         onClick={handleBackgroundClick}
       >
         <ProjectNetwork />
+        
+        {/* Image Gallery Overlay - positioned over the ProjectNetwork */}
+        <ImageGalleryOverlay
+          projectId={gallery.projectId || ''}
+          currentImageIndex={gallery.currentImageIndex}
+          images={gallery.images}
+          isOpen={gallery.isOpen}
+          onClose={() => dispatch(closeGallery())}
+          onNext={() => dispatch(nextImage())}
+          onPrevious={() => dispatch(previousImage())}
+          onSetImage={(index) => dispatch(setCurrentImage(index))}
+        />
       </div>
 
       {/* Permanent sidebar */}

@@ -1,9 +1,10 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { closeDetailPanel } from '@/store/slices/portfolioSlice';
+import { closeDetailPanel, openGallery } from '@/store/slices/portfolioSlice';
 import { addMessage } from '@/store/slices/consoleSlice';
 import { createInteractionDetails } from '@/utils/domUtils';
+import { getProjectThumbnailUrl, getProjectGalleryImages } from '@/utils/imageUtils';
 
 export default function DetailPanel() {
   const dispatch = useAppDispatch();
@@ -36,13 +37,6 @@ export default function DetailPanel() {
       w-full h-full transition-all duration-300
       ${selectedProject ? 'block' : 'hidden'}
     `}>
-      {/* Site Title */}
-      <div className="p-6 border-b border-white/40">
-        <h1 className="text-2xl font-light text-gray-700 mb-4">
-          David Amberg
-        </h1>
-      </div>
-      
       {/* Project Header */}
       <div className="p-6 border-b border-white/40">
         <div className="flex justify-between items-start mb-4">
@@ -56,19 +50,22 @@ export default function DetailPanel() {
             ×
           </button>
         </div>
-        <p className="text-sm text-gray-600 mb-4">
+      </div>
+
+      {/* Project Thumbnail */}
+      <div className="border-b border-white/40">
+        <img
+          src={getProjectThumbnailUrl(selectedProject.id) || ''}
+          alt={`${selectedProject.title} thumbnail`}
+          className="w-full h-48 object-cover"
+        />
+      </div>
+      
+      {/* Project Metadata */}
+      <div className="p-6 border-b border-white/40">
+        <p className="text-sm text-gray-600">
           {selectedProject.meta}
         </p>
-        <div className="flex flex-wrap gap-2">
-          {selectedProject.tags.map((tag: string, index: number) => (
-            <span
-              key={index}
-              className="px-2 py-1 text-xs bg-gray-100/80 text-gray-600 rounded"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* Content */}
@@ -96,6 +93,39 @@ export default function DetailPanel() {
               ))}
             </div>
           </div>
+
+          {/* Images */}
+          {(() => {
+            const galleryImages = getProjectGalleryImages(selectedProject.id);
+            if (galleryImages.length === 0) return null;
+            
+            return (
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-3">Images</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {galleryImages.map((imageName, index) => (
+                    <button
+                      key={index}
+                      className="aspect-square bg-gray-100 rounded overflow-hidden hover:opacity-80 transition-opacity"
+                      onClick={() => {
+                        dispatch(openGallery({
+                          projectId: selectedProject.id.toString(),
+                          images: galleryImages,
+                          initialIndex: index
+                        }));
+                      }}
+                    >
+                      <img
+                        src={`/images/projects/${selectedProject.id}/gallery/${imageName}`}
+                        alt={`${selectedProject.title} screenshot ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Related Projects */}
           <div>

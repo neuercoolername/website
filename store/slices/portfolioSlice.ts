@@ -6,6 +6,12 @@ interface PortfolioState {
   hoveredProject: number | null;
   detailPanelOpen: boolean;
   activeConnections: number[];
+  gallery: {
+    isOpen: boolean;
+    projectId: string | null;
+    currentImageIndex: number;
+    images: string[];
+  };
 }
 
 const initialState: PortfolioState = {
@@ -13,6 +19,12 @@ const initialState: PortfolioState = {
   hoveredProject: null,
   detailPanelOpen: false,
   activeConnections: [],
+  gallery: {
+    isOpen: false,
+    projectId: null,
+    currentImageIndex: 0,
+    images: [],
+  },
 };
 
 const portfolioSlice = createSlice({
@@ -40,8 +52,45 @@ const portfolioSlice = createSlice({
     setActiveConnections: (state, action: PayloadAction<number[]>) => {
       state.activeConnections = action.payload;
     },
+    openGallery: (state, action: PayloadAction<{ projectId: string; images: string[]; initialIndex?: number }>) => {
+      state.gallery.isOpen = true;
+      state.gallery.projectId = action.payload.projectId;
+      state.gallery.images = action.payload.images;
+      state.gallery.currentImageIndex = action.payload.initialIndex || 0;
+    },
+    closeGallery: (state) => {
+      state.gallery.isOpen = false;
+      state.gallery.projectId = null;
+      state.gallery.images = [];
+      state.gallery.currentImageIndex = 0;
+    },
+    nextImage: (state) => {
+      if (state.gallery.currentImageIndex < state.gallery.images.length - 1) {
+        state.gallery.currentImageIndex += 1;
+      }
+    },
+    previousImage: (state) => {
+      if (state.gallery.currentImageIndex > 0) {
+        state.gallery.currentImageIndex -= 1;
+      }
+    },
+    setCurrentImage: (state, action: PayloadAction<number>) => {
+      if (action.payload >= 0 && action.payload < state.gallery.images.length) {
+        state.gallery.currentImageIndex = action.payload;
+      }
+    },
   },
 });
 
-export const { selectProject, hoverProject, closeDetailPanel, setActiveConnections } = portfolioSlice.actions;
+export const { 
+  selectProject, 
+  hoverProject, 
+  closeDetailPanel, 
+  setActiveConnections,
+  openGallery,
+  closeGallery,
+  nextImage,
+  previousImage,
+  setCurrentImage
+} = portfolioSlice.actions;
 export default portfolioSlice.reducer;
