@@ -21,12 +21,12 @@ export default function ImageGalleryOverlay({
   onClose,
   onNext,
   onPrevious,
-  onSetImage
+  onSetImage,
 }: ImageGalleryOverlayProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen) return;
-      
+
       switch (event.key) {
         case 'Escape':
           onClose();
@@ -49,37 +49,16 @@ export default function ImageGalleryOverlay({
   const currentImage = images[currentImageIndex];
 
   return (
-    <div className="absolute inset-0 bg-black/90 z-50 flex items-center justify-center">
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 z-10"
-      >
-        ×
-      </button>
-
-      {/* Navigation arrows */}
-      {images.length > 1 && (
-        <>
-          <button
-            onClick={onPrevious}
-            className="absolute left-4 text-white text-3xl hover:text-gray-300 z-10"
-            disabled={currentImageIndex === 0}
-          >
-            ‹
-          </button>
-          <button
-            onClick={onNext}
-            className="absolute right-4 text-white text-3xl hover:text-gray-300 z-10"
-            disabled={currentImageIndex === images.length - 1}
-          >
-            ›
-          </button>
-        </>
-      )}
-
+    <div
+      className="absolute inset-0 bg-white/20 backdrop-blur-[0.5px] 
+ z-50 flex items-start justify-center pt-20"
+      onClick={onClose}
+    >
       {/* Main image */}
-      <div className="max-w-4xl max-h-[80vh] flex items-center justify-center">
+      <div
+        className="max-w-6xl max-h-[85vh] flex items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+      >
         <img
           src={`/images/projects/${projectId}/gallery/${currentImage}`}
           alt={`Project image ${currentImageIndex + 1}`}
@@ -87,22 +66,20 @@ export default function ImageGalleryOverlay({
         />
       </div>
 
-      {/* Image counter */}
-      {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm">
-          {currentImageIndex + 1} / {images.length}
-        </div>
-      )}
-
       {/* Thumbnail strip */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 mt-8">
+        <div
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3"
+          onClick={(e) => e.stopPropagation()}
+        >
           {images.map((image, index) => (
             <button
               key={index}
               onClick={() => onSetImage?.(index)}
-              className={`w-12 h-12 rounded overflow-hidden border-2 ${
-                index === currentImageIndex ? 'border-white' : 'border-transparent'
+              className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105 ${
+                index === currentImageIndex
+                  ? 'border-white shadow-lg scale-105'
+                  : 'border-white/30 hover:border-white/60'
               }`}
             >
               <img
