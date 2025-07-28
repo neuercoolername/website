@@ -18,8 +18,7 @@ model Project {
   title       String
   meta        String
   description String
-  links       String[]
-  related     String[]
+  links       Json[] // [{title: string, url: string}]
   tags        String[]
   isMajor     Boolean  @default(false)
   positionX   Float    // percentage
