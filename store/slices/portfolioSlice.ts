@@ -6,6 +6,7 @@ interface PortfolioState {
   hoveredProject: number | null;
   detailPanelOpen: boolean;
   activeConnections: number[];
+  selectedTag: string | null;
   gallery: {
     isOpen: boolean;
     projectId: string | null;
@@ -19,6 +20,7 @@ const initialState: PortfolioState = {
   hoveredProject: null,
   detailPanelOpen: false,
   activeConnections: [],
+  selectedTag: null,
   gallery: {
     isOpen: false,
     projectId: null,
@@ -79,6 +81,9 @@ const portfolioSlice = createSlice({
         state.gallery.currentImageIndex = action.payload;
       }
     },
+    selectTag: (state, action: PayloadAction<string | null>) => {
+      state.selectedTag = action.payload;
+    },
   },
 });
 
@@ -91,6 +96,7 @@ export const {
   closeGallery,
   nextImage,
   previousImage,
-  setCurrentImage
+  setCurrentImage,
+  selectTag
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

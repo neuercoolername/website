@@ -12,7 +12,7 @@ interface ProjectNodeProps {
 
 export default function ProjectNode({ project }: ProjectNodeProps) {
   const dispatch = useAppDispatch();
-  const { hoveredProject, selectedProject } = useAppSelector(state => state.portfolio);
+  const { hoveredProject, selectedProject, selectedTag } = useAppSelector(state => state.portfolio);
 
   const handleClick = (event: React.MouseEvent) => {
     dispatch(selectProject({ 
@@ -57,6 +57,7 @@ export default function ProjectNode({ project }: ProjectNodeProps) {
 
   const isHovered = hoveredProject === project.id;
   const isSelected = selectedProject?.id === project.id;
+  const hasSelectedTag = selectedTag && project.tags.includes(selectedTag);
 
   return (
     <div
@@ -94,6 +95,8 @@ export default function ProjectNode({ project }: ProjectNodeProps) {
           ${project.isMajor ? 'rounded-lg' : 'rounded-md'}
           ${isSelected 
             ? 'bg-blue-50/90 border-blue-400/70 shadow-lg shadow-blue-200/50' 
+            : hasSelectedTag
+            ? 'bg-orange-50/80 border-orange-300/70 shadow-sm shadow-orange-100/50'
             : 'bg-white/85 border-gray-300/60'
           }
           ${isHovered && !isSelected
@@ -102,12 +105,20 @@ export default function ProjectNode({ project }: ProjectNodeProps) {
           }
         `}>
           <h3 className={`font-medium leading-tight transition-colors ${
-            isSelected ? 'text-blue-900' : 'text-gray-800'
+            isSelected 
+              ? 'text-blue-900' 
+              : hasSelectedTag 
+              ? 'text-orange-900'
+              : 'text-gray-800'
           } ${project.isMajor ? 'text-sm mb-2' : 'text-xs mb-1'}`}>
             {project.title}
           </h3>
           <p className={`transition-colors ${
-            isSelected ? 'text-blue-700' : 'text-gray-600'
+            isSelected 
+              ? 'text-blue-700' 
+              : hasSelectedTag
+              ? 'text-orange-700'
+              : 'text-gray-600'
           } ${project.isMajor ? 'text-xs' : 'text-[10px]'}`}>
             {project.meta}
           </p>

@@ -5,14 +5,25 @@ import {
   closeDetailPanel,
   closeGallery,
   openGallery,
+  selectTag,
 } from '@/store/slices/portfolioSlice';
 import { addMessage } from '@/store/slices/consoleSlice';
 import { createInteractionDetails } from '@/utils/domUtils';
 import { getProjectGalleryImages } from '@/utils/imageUtils';
+import { useEffect, useState } from 'react';
 
 export default function DetailPanel() {
   const dispatch = useAppDispatch();
-  const { selectedProject } = useAppSelector((state) => state.portfolio);
+  const { selectedProject, selectedTag } = useAppSelector((state) => state.portfolio);
+  const { projects } = useAppSelector((state) => state.projects);
+  const [allTags, setAllTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (projects && projects.length > 0) {
+      const tags = [...new Set(projects.flatMap((project: any) => project.tags))];
+      setAllTags(tags.sort());
+    }
+  }, [projects]);
 
   const handleClose = (event: React.MouseEvent) => {
     dispatch(closeDetailPanel());
@@ -26,6 +37,10 @@ export default function DetailPanel() {
     );
   };
 
+  const handleTagClick = (tag: string) => {
+    dispatch(selectTag(selectedTag === tag ? null : tag));
+  };
+
   if (!selectedProject) {
     return (
       <div className="w-full h-full flex flex-col">
@@ -33,6 +48,39 @@ export default function DetailPanel() {
         <div className="p-6 border-b border-white/40">
           <h1 className="text-2xl font-light text-gray-700">David Amberg</h1>
         </div>
+
+        {/* Navigation Links */}
+        <div className="p-4 border-b border-white/40">
+          <div className="space-y-1">
+            <button className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors">
+              About →
+            </button>
+            <button className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors">
+              Imprint →
+            </button>
+          </div>
+        </div>
+
+        {/* Tag Filter */}
+        {allTags.length > 0 && (
+          <div className="p-4">
+            <div className="flex flex-wrap gap-2">
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => handleTagClick(tag)}
+                  className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                    selectedTag === tag
+                      ? 'bg-gray-800 text-white border-gray-800'
+                      : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
