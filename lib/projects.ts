@@ -6,7 +6,6 @@ export interface Project {
   meta: string;
   description: string;
   links: string[];
-  related: string[];
   tags: string[];
   isMajor: boolean;
   position: {
@@ -20,46 +19,46 @@ export interface Project {
 export class ProjectService {
   static async getAllProjects(): Promise<Project[]> {
     const projects = await prisma.project.findMany({
-      orderBy: { id: 'asc' }
+      orderBy: { id: 'asc' },
     });
-    
-    return projects.map(project => ({
+
+    return projects.map((project) => ({
       ...project,
       position: {
         x: project.positionX,
-        y: project.positionY
-      }
+        y: project.positionY,
+      },
     }));
   }
 
   static async getProjectById(id: number): Promise<Project | null> {
     const project = await prisma.project.findUnique({
-      where: { id }
+      where: { id },
     });
-    
+
     if (!project) return null;
-    
+
     return {
       ...project,
       position: {
         x: project.positionX,
-        y: project.positionY
-      }
+        y: project.positionY,
+      },
     };
   }
 
   static async getMajorProjects(): Promise<Project[]> {
     const projects = await prisma.project.findMany({
       where: { isMajor: true },
-      orderBy: { id: 'asc' }
+      orderBy: { id: 'asc' },
     });
-    
-    return projects.map(project => ({
+
+    return projects.map((project) => ({
       ...project,
       position: {
         x: project.positionX,
-        y: project.positionY
-      }
+        y: project.positionY,
+      },
     }));
   }
 
@@ -67,18 +66,18 @@ export class ProjectService {
     const projects = await prisma.project.findMany({
       where: {
         tags: {
-          has: tag
-        }
+          has: tag,
+        },
       },
-      orderBy: { id: 'asc' }
+      orderBy: { id: 'asc' },
     });
-    
-    return projects.map(project => ({
+
+    return projects.map((project) => ({
       ...project,
       position: {
         x: project.positionX,
-        y: project.positionY
-      }
+        y: project.positionY,
+      },
     }));
   }
 }
