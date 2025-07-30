@@ -1,35 +1,26 @@
-// Known gallery images for each project
-// This could be extended to read from filesystem or database in the future
-const PROJECT_IMAGES: Record<string, string[]> = {
-  '1': ['Screenshot (6).png', 'Screenshot (8).png', 'Screenshot (9).png', 'Screenshot (13).png'],
-  // Add more projects as needed
-};
-
-export interface ProjectImages {
-  thumbnail: string | null;
-  gallery: string[];
+export interface ProjectImage {
+  id: number;
+  blobUrl: string;
+  filename: string;
+  altText?: string;
+  displayOrder: number;
 }
 
-export function getProjectImages(projectId: number): ProjectImages {
-  const id = projectId.toString();
-  
-  // Check if thumbnail exists (assume it exists for now, could be made dynamic)
-  const thumbnail = `/images/projects/${id}/thumbnail.jpg`;
-  
-  // Get gallery images for this project
-  const galleryImages = PROJECT_IMAGES[id] || [];
-  
-  return {
-    thumbnail,
-    gallery: galleryImages
-  };
+export async function getProjectImages(projectId: number): Promise<ProjectImage[]> {
+  try {
+    const response = await fetch(`/api/projects/${projectId}/images`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch images');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching project images:', error);
+    return [];
+  }
 }
 
-export function getProjectThumbnailUrl(projectId: number): string | null {
-  return `/images/projects/${projectId}/thumbnail.jpg`;
-}
-
-export function getProjectGalleryImages(projectId: number): string[] {
-  const id = projectId.toString();
-  return PROJECT_IMAGES[id] || [];
+// Legacy function for compatibility - returns just the URLs
+export async function getProjectGalleryImages(projectId: number): Promise<string[]> {
+  const images = await getProjectImages(projectId);
+  return images.map(img => img.blobUrl);
 }

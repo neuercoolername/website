@@ -24,6 +24,7 @@ export class ProjectService {
 
     return projects.map((project) => ({
       ...project,
+      links: project.links as string[],
       position: {
         x: project.positionX,
         y: project.positionY,
@@ -40,6 +41,7 @@ export class ProjectService {
 
     return {
       ...project,
+      links: project.links as string[],
       position: {
         x: project.positionX,
         y: project.positionY,
@@ -55,6 +57,7 @@ export class ProjectService {
 
     return projects.map((project) => ({
       ...project,
+      links: project.links as string[],
       position: {
         x: project.positionX,
         y: project.positionY,
@@ -74,6 +77,7 @@ export class ProjectService {
 
     return projects.map((project) => ({
       ...project,
+      links: project.links as string[],
       position: {
         x: project.positionX,
         y: project.positionY,

@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 
 interface ImageGalleryOverlayProps {
-  projectId: string;
   currentImageIndex: number;
   images: string[];
   isOpen: boolean;
@@ -14,7 +13,6 @@ interface ImageGalleryOverlayProps {
 }
 
 export default function ImageGalleryOverlay({
-  projectId,
   currentImageIndex,
   images,
   isOpen,
@@ -60,7 +58,7 @@ export default function ImageGalleryOverlay({
         onClick={(e) => e.stopPropagation()}
       >
         <img
-          src={`/images/projects/${projectId}/${currentImage}`}
+          src={currentImage}
           alt={`Project image ${currentImageIndex + 1}`}
           className="max-w-full max-h-full object-contain"
         />
@@ -83,7 +81,7 @@ export default function ImageGalleryOverlay({
               }`}
             >
               <img
-                src={`/images/projects/${projectId}/${image}`}
+                src={image}
                 alt={`Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
               />

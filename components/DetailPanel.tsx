@@ -17,13 +17,22 @@ export default function DetailPanel() {
   const { selectedProject, selectedTag } = useAppSelector((state) => state.portfolio);
   const { projects } = useAppSelector((state) => state.projects);
   const [allTags, setAllTags] = useState<string[]>([]);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (projects && projects.length > 0) {
-      const tags = [...new Set(projects.flatMap((project: any) => project.tags))];
+      const tags = [...new Set(projects.flatMap((project) => project.tags))];
       setAllTags(tags.sort());
     }
   }, [projects]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      getProjectGalleryImages(selectedProject.id).then(setGalleryImages);
+    } else {
+      setGalleryImages([]);
+    }
+  }, [selectedProject]);
 
   const handleClose = (event: React.MouseEvent) => {
     dispatch(closeDetailPanel());
@@ -131,38 +140,33 @@ export default function DetailPanel() {
         </div>
 
         {/* Images */}
-        {(() => {
-            const galleryImages = getProjectGalleryImages(selectedProject.id);
-            if (galleryImages.length === 0) return null;
-
-            return (
-              <div>
-                <div className="grid grid-cols-3 gap-2">
-                  {galleryImages.map((imageName, index) => (
-                    <button
-                      key={index}
-                      className="aspect-square bg-gray-100 rounded overflow-hidden hover:opacity-80 transition-opacity"
-                      onClick={() => {
-                        dispatch(
-                          openGallery({
-                            projectId: selectedProject.id.toString(),
-                            images: galleryImages,
-                            initialIndex: index,
-                          })
-                        );
-                      }}
-                    >
-                      <img
-                        src={`/images/projects/${selectedProject.id}/${imageName}`}
-                        alt={`${selectedProject.title} screenshot ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
+        {galleryImages.length > 0 && (
+          <div>
+            <div className="grid grid-cols-3 gap-2">
+              {galleryImages.map((imageUrl, index) => (
+                <button
+                  key={index}
+                  className="aspect-square bg-gray-100 rounded overflow-hidden hover:opacity-80 transition-opacity"
+                  onClick={() => {
+                    dispatch(
+                      openGallery({
+                        projectId: selectedProject.id.toString(),
+                        images: galleryImages,
+                        initialIndex: index,
+                      })
+                    );
+                  }}
+                >
+                  <img
+                    src={imageUrl}
+                    alt={`${selectedProject.title} screenshot ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

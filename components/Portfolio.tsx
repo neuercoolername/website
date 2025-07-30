@@ -69,7 +69,6 @@ export default function Portfolio() {
         
         {/* Image Gallery Overlay - positioned over the ProjectNetwork */}
         <ImageGalleryOverlay
-          projectId={gallery.projectId || ''}
           currentImageIndex={gallery.currentImageIndex}
           images={gallery.images}
           isOpen={gallery.isOpen}
