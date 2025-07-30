@@ -153,7 +153,7 @@ export default function DetailPanel() {
                       }}
                     >
                       <img
-                        src={`/images/projects/${selectedProject.id}/gallery/${imageName}`}
+                        src={`/images/projects/${selectedProject.id}/${imageName}`}
                         alt={`${selectedProject.title} screenshot ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
