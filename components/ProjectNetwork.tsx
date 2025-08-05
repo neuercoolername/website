@@ -8,8 +8,10 @@ import ProjectNode from './ProjectNode';
 
 export default function ProjectNetwork() {
   const dispatch = useAppDispatch();
-  const { projects, loading, error } = useAppSelector((state) => state.projects);
-  
+  const { projects, loading, error } = useAppSelector(
+    (state) => state.projects
+  );
+
   useComponentPerformance('ProjectNetwork');
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function ProjectNetwork() {
   if (loading) {
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="text-gray-500">Loading :)</div>
+        <div className="text-gray-500">Loading (:</div>
       </div>
     );
   }
@@ -35,20 +37,16 @@ export default function ProjectNetwork() {
   }
 
   return (
-    <div
-      className="relative w-full h-full"
-      style={{ pointerEvents: 'none' }}
-    >
+    <div className="relative w-full h-full" style={{ pointerEvents: 'none' }}>
       {/* Project nodes layer */}
-      <div className="relative z-10 w-full h-full" style={{ pointerEvents: 'none' }}>
+      <div
+        className="relative z-10 w-full h-full"
+        style={{ pointerEvents: 'none' }}
+      >
         {projects.map((project) => (
-          <ProjectNode
-            key={project.id}
-            project={project}
-          />
+          <ProjectNode key={project.id} project={project} />
         ))}
       </div>
-
     </div>
   );
 }

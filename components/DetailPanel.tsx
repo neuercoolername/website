@@ -129,13 +129,16 @@ export default function DetailPanel() {
 
         {/* Links */}
         <div className="space-y-1">
-          {selectedProject.links.map((link: string, index: number) => (
-            <button
+          {selectedProject.links.map((link: {title: string, url: string}, index: number) => (
+            <a
               key={index}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors"
             >
-              {link} →
-            </button>
+              {link.title} →
+            </a>
           ))}
         </div>
 

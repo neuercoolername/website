@@ -1,11 +1,16 @@
 import { prisma } from './prisma';
 
+export interface ProjectLink {
+  title: string;
+  url: string;
+}
+
 export interface Project {
   id: number;
   title: string;
   meta: string;
   description: string;
-  links: string[];
+  links: ProjectLink[];
   tags: string[];
   isMajor: boolean;
   position: {
@@ -24,7 +29,7 @@ export class ProjectService {
 
     return projects.map((project) => ({
       ...project,
-      links: project.links as string[],
+      links: project.links as unknown as ProjectLink[],
       position: {
         x: project.positionX,
         y: project.positionY,
@@ -41,7 +46,7 @@ export class ProjectService {
 
     return {
       ...project,
-      links: project.links as string[],
+      links: project.links as unknown as ProjectLink[],
       position: {
         x: project.positionX,
         y: project.positionY,
@@ -57,7 +62,7 @@ export class ProjectService {
 
     return projects.map((project) => ({
       ...project,
-      links: project.links as string[],
+      links: project.links as unknown as ProjectLink[],
       position: {
         x: project.positionX,
         y: project.positionY,
@@ -77,7 +82,7 @@ export class ProjectService {
 
     return projects.map((project) => ({
       ...project,
-      links: project.links as string[],
+      links: project.links as unknown as ProjectLink[],
       position: {
         x: project.positionX,
         y: project.positionY,
