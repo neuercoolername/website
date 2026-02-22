@@ -35,7 +35,7 @@ export default function ProjectNode({ project }: ProjectNodeProps) {
       ? `, bubbled up to <span class="dom-selector">${details.currentTarget.selector}</span>` 
       : '';
     dispatch(addMessage({
-      content: `click event originated at <span class="dom-selector">${target}</span>${bubbleInfo}`,
+      content: `[EVENT] click event originated at <span class="dom-selector">${target}</span>${bubbleInfo}`,
       type: 'interaction',
       details
     }));

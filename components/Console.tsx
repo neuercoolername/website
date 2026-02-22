@@ -1,12 +1,20 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleExpanded, addPersonalFragment } from '@/store/slices/consoleSlice';
 
 export default function Console() {
   const dispatch = useAppDispatch();
   const { messages, isExpanded, isVisible } = useAppSelector(state => state.console);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isExpanded && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, isExpanded]);
 
   useEffect(() => {
     // Add random personal fragments periodically
@@ -45,7 +53,7 @@ export default function Console() {
 
       {/* Messages */}
       {isExpanded && (
-        <div className="h-52 overflow-y-auto px-4 pb-4">
+        <div ref={scrollRef} className="h-52 overflow-y-auto px-4 pb-4">
           <div className="space-y-1 text-xs font-mono">
             {messages.slice(-20).map((message) => (
               <div
