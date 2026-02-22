@@ -7,6 +7,7 @@ import { closeDetailPanel, closeGallery, nextImage, previousImage, setCurrentIma
 import { useBackground } from '@/hooks/useBackground';
 import { useScratch } from '@/hooks/useScratch';
 import { usePerformance } from '@/hooks/usePerformance';
+import { useClickTracking } from '@/hooks/useClickTracking';
 import ProjectNetwork from './ProjectNetwork';
 import Console from './Console';
 import DetailPanel from './DetailPanel';
@@ -20,6 +21,7 @@ export default function Portfolio() {
   // Initialize ambient systems
   useBackground();
   useScratch();
+  useClickTracking();
 
   // Initialize performance monitoring
   logPaintTiming();

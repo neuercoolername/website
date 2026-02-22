@@ -73,10 +73,14 @@ export default function Console() {
                   })}
                 </span>
                 {' '}
-                <span 
-                  dangerouslySetInnerHTML={{ __html: message.content }}
-                  className="[&_.dom-selector]:bg-gray-100 [&_.dom-selector]:px-1 [&_.dom-selector]:rounded [&_.dom-selector]:text-gray-800 [&_.dom-selector]:font-medium"
-                />
+                <span>
+                  {message.content}
+                  {message.details?.domElement?.selector && (
+                    <span className="ml-1 bg-gray-100 px-1 rounded text-gray-800 font-medium">
+                      {message.details.domElement.selector}
+                    </span>
+                  )}
+                </span>
               </div>
             ))}
           </div>
