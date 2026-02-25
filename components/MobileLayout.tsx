@@ -23,6 +23,15 @@ export default function MobileLayout() {
 
   const allTags = [...new Set(projects.flatMap(p => p.tags))].sort();
 
+  const sortedProjects = selectedTag
+    ? [...projects].sort((a, b) => {
+        const aHas = a.tags.includes(selectedTag);
+        const bHas = b.tags.includes(selectedTag);
+        if (aHas === bHas) return 0;
+        return aHas ? -1 : 1;
+      })
+    : projects;
+
   return (
     <div className="flex flex-col h-screen relative overflow-hidden">
       {/* Scrollable project list */}
@@ -54,7 +63,7 @@ export default function MobileLayout() {
           {loading && (
             <p className="text-gray-500 text-sm">Loading (:</p>
           )}
-          {projects.map(project => (
+          {sortedProjects.map(project => (
             <MobileProjectCard key={project.id} project={project} />
           ))}
         </div>
