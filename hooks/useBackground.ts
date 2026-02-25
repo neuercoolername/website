@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useAppDispatch } from '@/store/hooks';
+import { setTimeOfDay } from '@/store/slices/appSlice';
 
 interface BackgroundConfig {
   updateInterval?: number; // milliseconds
@@ -44,22 +46,20 @@ function applyTimeClass(timeOfDay: TimeOfDay, transitionDuration: number) {
 }
 
 export function useBackground(config: BackgroundConfig = {}) {
+  const dispatch = useAppDispatch();
   const { updateInterval, transitionDuration } = { ...defaultConfig, ...config };
 
   useEffect(() => {
-    // Apply the current time-based background
     const currentTime = getTimeOfDay();
     applyTimeClass(currentTime, transitionDuration);
+    dispatch(setTimeOfDay(currentTime));
 
-    // Set up interval to update background based on real time
     const interval = setInterval(() => {
       const newTime = getTimeOfDay();
       applyTimeClass(newTime, transitionDuration);
+      dispatch(setTimeOfDay(newTime));
     }, updateInterval);
 
     return () => clearInterval(interval);
-  }, [updateInterval, transitionDuration]);
-
-  // Return current time of day for other components to use
-  return getTimeOfDay();
+  }, [dispatch, updateInterval, transitionDuration]);
 }
