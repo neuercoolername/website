@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import ImageWithSkeleton from './ImageWithSkeleton';
 
 interface ImageGalleryOverlayProps {
   currentImageIndex: number;
@@ -54,10 +55,11 @@ export default function ImageGalleryOverlay({
     >
       {/* Main image */}
       <div
-        className="max-w-6xl max-h-[85vh] flex items-center justify-center"
+        className="max-w-6xl max-h-[85vh] w-full min-h-[400px] flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <img
+        <ImageWithSkeleton
+          key={currentImage}
           src={currentImage}
           alt={`Project image ${currentImageIndex + 1}`}
           className="max-w-full max-h-full object-contain"
@@ -80,7 +82,7 @@ export default function ImageGalleryOverlay({
                   : 'border-white/30 hover:border-white/60'
               }`}
             >
-              <img
+              <ImageWithSkeleton
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
