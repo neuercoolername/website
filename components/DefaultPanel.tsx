@@ -22,7 +22,7 @@ export default function DefaultPanel() {
       <div className="p-6 border-b border-white/40">
         <h1 className="text-2xl font-light text-gray-700">David Amberg</h1>
       </div>
-
+      test
       <div className="p-4 border-b border-white/40">
         <div className="space-y-1">
           <button className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors">
