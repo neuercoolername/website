@@ -28,7 +28,7 @@ jobs:
           tags: ghcr.io/neuercoolername/website:latest
 
       - name: Deploy on server
-        uses: and-fm/cloudflared-ssh-action@v3
+        uses: nathanjnorris/cloudflared-ssh-action@latest
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
