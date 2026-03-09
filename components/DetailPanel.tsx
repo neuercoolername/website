@@ -3,8 +3,12 @@
 import { useAppSelector } from '@/store/hooks';
 import DefaultPanel from './DefaultPanel';
 import ProjectDetail from './ProjectDetail';
+import AboutPanel from './AboutPanel';
 
 export default function DetailPanel() {
-  const { selectedProject } = useAppSelector((state) => state.portfolio);
-  return selectedProject ? <ProjectDetail /> : <DefaultPanel />;
+  const { sidebarPanel } = useAppSelector((state) => state.portfolio);
+
+  if (sidebarPanel === 'project') return <ProjectDetail />;
+  if (sidebarPanel === 'about') return <AboutPanel />;
+  return <DefaultPanel />;
 }

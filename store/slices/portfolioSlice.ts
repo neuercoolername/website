@@ -7,6 +7,7 @@ interface PortfolioState {
   detailPanelOpen: boolean;
   activeConnections: number[];
   selectedTag: string | null;
+  sidebarPanel: 'default' | 'project' | 'about';
   gallery: {
     isOpen: boolean;
     projectId: string | null;
@@ -21,6 +22,7 @@ const initialState: PortfolioState = {
   detailPanelOpen: false,
   activeConnections: [],
   selectedTag: null,
+  sidebarPanel: 'default',
   gallery: {
     isOpen: false,
     projectId: null,
@@ -37,6 +39,7 @@ const portfolioSlice = createSlice({
       state.selectedProject = action.payload.project;
       state.detailPanelOpen = !!action.payload.project;
       state.activeConnections = action.payload.connections;
+      state.sidebarPanel = action.payload.project ? 'project' : 'default';
     },
     hoverProject: (state, action: PayloadAction<{ projectId: number | null; connections: number[] }>) => {
       state.hoveredProject = action.payload.projectId;
@@ -47,9 +50,13 @@ const portfolioSlice = createSlice({
     closeDetailPanel: (state) => {
       state.selectedProject = null;
       state.detailPanelOpen = false;
-      state.activeConnections = state.hoveredProject 
-        ? state.activeConnections 
+      state.sidebarPanel = 'default';
+      state.activeConnections = state.hoveredProject
+        ? state.activeConnections
         : [];
+    },
+    setSidebarPanel: (state, action: PayloadAction<'default' | 'project' | 'about'>) => {
+      state.sidebarPanel = action.payload;
     },
     setActiveConnections: (state, action: PayloadAction<number[]>) => {
       state.activeConnections = action.payload;
@@ -87,10 +94,11 @@ const portfolioSlice = createSlice({
   },
 });
 
-export const { 
-  selectProject, 
-  hoverProject, 
-  closeDetailPanel, 
+export const {
+  selectProject,
+  hoverProject,
+  closeDetailPanel,
+  setSidebarPanel,
   setActiveConnections,
   openGallery,
   closeGallery,

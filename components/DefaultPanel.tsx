@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectTag } from '@/store/slices/portfolioSlice';
+import { selectTag, setSidebarPanel } from '@/store/slices/portfolioSlice';
 
 export default function DefaultPanel() {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ export default function DefaultPanel() {
 
       <div className="p-4 border-b border-white/40">
         <div className="space-y-1">
-          <button className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors">
+          <button onClick={() => dispatch(setSidebarPanel('about'))} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors">
             About →
           </button>
           <button className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-100/50 rounded transition-colors">
