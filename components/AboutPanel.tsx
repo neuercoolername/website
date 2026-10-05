@@ -3,8 +3,6 @@
 import { useAppDispatch } from '@/store/hooks';
 import { setSidebarPanel } from '@/store/slices/portfolioSlice';
 
-const email = ['mail', 'davidamberg.de'].join('@');
-
 export default function AboutPanel() {
   const dispatch = useAppDispatch();
   return (
@@ -20,12 +18,9 @@ export default function AboutPanel() {
       </div>
 
       <div className="p-6">
-        <a
-          href={`mailto:${email}`}
-          className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-        >
-          {email}
-        </a>
+        <p className="text-sm text-gray-600">
+          Software developer and artist based in Berlin.
+        </p>
       </div>
     </div>
   );

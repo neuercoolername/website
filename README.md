@@ -11,7 +11,7 @@ Instead of a list, projects are laid out as a spatial network you can explore. A
 - **Time-of-day background**: the page background moves through eight phases, from dawn to late night, based on the visitor's local clock.
 - **Scratch drawing**: moving the cursor leaves faint SVG strokes that slowly fade. They are not drawn over buttons, links or panels. As visitors move from node to node, their strokes sketch connections between projects, so the network takes shape as it is explored.
 - **Mobile layout**: touch devices get a separate layout with project cards and a bottom sheet instead of the network view.
-- **About panel**: a short about page with contact details.
+- **About panel**: a short about page.
 
 ## Tech stack
 
